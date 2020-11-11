@@ -1,1 +1,7 @@
 # SolarPower
+
+This systems consists in perform accurate readings of current and voltage using an STM32103C8T6 microcontroller (MCU). The pv.ino file contains the code that can be recorded in the STM32 using the arduino IDE (Tip: to accomplish that you should install the STM Cube Programmer https://www.st.com/en/development-tools/stm32cubeprog.html before install the Arduino IDE).
+
+This MCU has 10 analog-to-digital converters (ADC). We have connected five (5) WCS2702 current sensors (A0 to A4) and the voltages (between 0 and 3.3v) can be measured directly by the ADC's (here we have used A5 to A8). The negative side of the solar cell (oftenly the upside) is than connected to the ground in the MCU, and the positive side (oftenly the downside) is connected simultaneously to the ADC that reads the voltage and to the load (which is connected in series to the current sensor). The load is than connected to the ground in the MCU. As you may have noted, there is 5 current readings and 4 voltage readings. This was done just to take the "zero" reading of the first sensor and record it, providing some information about flutuations in the readings that may arise from some noise. 
+
+The MCU averages the current and voltage readings during about one second (192 readings 5 ms delayed from each other) and sends the ADC readings of A0-A8 pins trough serial over usb. The file "pv-stm32.py" contains a small software to be run in python3, which is designed to read this values, store it in a pandas and save/graph when requested (by pushing a button).
